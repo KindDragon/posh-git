@@ -111,6 +111,18 @@ function GitTabExpansion($lastBlock) {
         $lastBlock = expandGitAlias $Matches['cmd'] $Matches['args']
     }
 
+    # Handles gitextensions <command> (gitextensions)
+    if($lastBlock -match "^$(Get-AliasPattern gitextensions) (?<cmd>\S*)$") {
+            # Need return statement to prevent fall-through.
+            return $gitExtensionsCommands | where { $_ -like "$($matches['cmd'])*" }
+    }
+
+    # Handles gitext <command> (gitextensions)
+    if($lastBlock -match "^$(Get-AliasPattern gitext) (?<cmd>\S*)$") {
+            # Need return statement to prevent fall-through.
+            return $gitExtensionsCommands | where { $_ -like "$($matches['cmd'])*" }
+    }
+
     # Handles tgit <command> (tortoisegit)
     if($lastBlock -match "^$(Get-AliasPattern tgit) (?<cmd>\S*)$") {
             # Need return statement to prevent fall-through.
@@ -211,6 +223,7 @@ function TabExpansion($line, $lastWord) {
     switch -regex ($lastBlock) {
         # Execute git tab completion for all git-related commands
         "^$(Get-AliasPattern git) (.*)" { GitTabExpansion $lastBlock }
+        "^$(Get-AliasPattern gitext) (.*)" { GitTabExpansion $lastBlock }
         "^$(Get-AliasPattern tgit) (.*)" { GitTabExpansion $lastBlock }
 
         # Fall back on existing tab expansion

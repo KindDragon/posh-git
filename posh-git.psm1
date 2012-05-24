@@ -7,6 +7,7 @@ Push-Location $psScriptRoot
 . ./GitUtils.ps1
 . ./GitPrompt.ps1
 . ./GitTabExpansion.ps1
+. ./GitExtensions.ps1
 . ./TortoiseGit.ps1
 Pop-Location
 
@@ -23,5 +24,6 @@ Export-ModuleMember -Function @(
         'Start-SshAgent',
         'Stop-SshAgent',
         'Add-SshKey',
+        'gitext',
         'tgit')
 
